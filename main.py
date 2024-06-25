@@ -1,5 +1,7 @@
 import pygame
 import os
+import random
+import time
 
 import pygame.locals
 WIDTH, HEIGHT = 900, 500
@@ -16,33 +18,33 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
         self.sprites = []
-        self.animating = False
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_000.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_001.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_002.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_003.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_004.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_005.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_006.png'))
-        self.sprites.append(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_007.png'))
+        width, height = 250, 150
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_000.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_001.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_002.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_003.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_004.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_005.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_006.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_007.png'), True, False), (width, height)))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
-        self.rect = self.image.get_rect()
-        self.rect = [pos_x, pos_y]
+        self.rect = self.image.get_rect(width=250, height=150)
+        self.rect.size = (250, 150)
+        self.rect.topleft = [pos_x, pos_y]
 
     def update(self):
-        if self.animating == True:
-            self.current_sprite += 0.6
+        self.current_sprite += 0.6
+        
 
-            if self.current_sprite >= len(self.sprites):
-                self.animating = False
-                self.current_sprite = 0
-            self.image = self.sprites[int(self.current_sprite)]
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0
+        self.image = self.sprites[int(self.current_sprite)]
+        self.rect.size = (250, 150)
+        self.rect.x += 3
 
-    def animate(self):
-        self.animating = True
-    
+clock = pygame.time.Clock()
 
 class Slash:
     def __init__(self, x, y):
@@ -69,7 +71,9 @@ def samurai_movement(keys, samurai):
 
 
 moving_sprites = pygame.sprite.Group()
-enemy = Enemy(400, 100)
+#random y pos for enemy
+random_y = random.randint(0, 350)
+enemy = Enemy(-300, random_y)
 moving_sprites.add(enemy)
 print(moving_sprites)
 
@@ -79,6 +83,8 @@ def draw_window(samurai, slash):
     for one_slash in slash:
         WIN.blit(SAMURAI_SLASH, one_slash)
         one_slash.x -= 8
+    
+  
     moving_sprites.draw(WIN)
     enemy.update()
 
