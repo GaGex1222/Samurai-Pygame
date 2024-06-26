@@ -44,7 +44,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.size = (250, 150)
         self.rect.x += 3
 
-clock = pygame.time.Clock()
+
 
 class Slash:
     def __init__(self, x, y):
@@ -53,7 +53,8 @@ class Slash:
         self.speed = 3  # Speed at which the slash moves
 
     def move(self):
-        self.x += self.speed
+        distance_to_move = -124 - self.x
+        self.x += distance_to_move  # Update x by the difference
 
     def draw(self, surface):
         surface.blit(SAMURAI_SLASH, (self.x, self.y))
@@ -69,6 +70,7 @@ def samurai_movement(keys, samurai):
     elif keys[pygame.K_UP] and samurai.y > -24:
         samurai.y -= VEL
 
+draw_slash = False
 
 moving_sprites = pygame.sprite.Group()
 #random y pos for enemy
@@ -77,29 +79,26 @@ enemy = Enemy(-300, random_y)
 moving_sprites.add(enemy)
 print(moving_sprites)
 
-def draw_window(samurai, slash):
+def draw_window(samurai, slash, draw_slash):
     WIN.fill(bg_color)
     WIN.blit(SAMURAI_IMAGE_SCALED, samurai)
-    for one_slash in slash:
-        WIN.blit(SAMURAI_SLASH, one_slash)
-        one_slash.x -= 8
-    
-  
-    moving_sprites.draw(WIN)
-    enemy.update()
+    if draw_slash:
+        slash.draw(WIN)
+        slash.move()
+        if slash.x > -50:
+            draw_slash = False
 
     pygame.display.update()
 
 def main():
-    
     samurai = pygame.Rect(100, 0, 400, 300)
-    slashes = []
+    slash_rect = pygame.Rect((samurai.x - 30, samurai.y), (124, 150))
 
     clock = pygame.time.Clock()
     run = True
     while run:
         mouse_pos = pygame.mouse.get_pos()
-        slash_rect = pygame.Rect((samurai.x - 30, samurai.y), (124, 150))
+        slash = Slash(x=samurai.x - 30, y=samurai.y)
         #print(mouse_pos)
 
 
@@ -111,19 +110,21 @@ def main():
                  run = False
 
              if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_k:
-                    enemy.animate()
-                    
                 if event.key == pygame.K_SPACE:
+                    global draw_slash
+                    draw_slash = True
+                    slash = Slash(x=samurai.x - 30, y=samurai.y)
                     
-                    slashes.append(slash_rect)
-                    print(slashes)
+
 
 
     
+
+    
+    
     
 
-        draw_window(samurai, slashes)
+        draw_window(samurai, slash=slash, draw_slash=draw_slash )
         keys_pressed = pygame.key.get_pressed()
         samurai_movement(keys=keys_pressed, samurai=samurai)
         
