@@ -21,7 +21,6 @@ class Samurai(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         self.scaled_sprites = []
-        self.running_sprites = []
         self.scaled_running_sprites = []
         self.x = x_pos
         self.y = y_pos
@@ -30,6 +29,8 @@ class Samurai(pygame.sprite.Sprite):
         self.is_attacking = False
         self.is_running = False
         self.attack_counter = 0
+        self.running_counter = 0
+        #Attacking Sprites
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_000.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_001.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_003.png'))
@@ -37,6 +38,17 @@ class Samurai(pygame.sprite.Sprite):
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_005.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_006.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_007.png'))
+        #Running sprites
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_000.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_001.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_002.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_003.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_004.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_005.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_006.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_007.png'), (self.width, self.height)))
+        print(self.scaled_running_sprites)
+
         
         for sprite in self.sprites:
             scaled_image = pygame.transform.scale(sprite, (self.width, self.height))
@@ -54,13 +66,26 @@ class Samurai(pygame.sprite.Sprite):
                 self.attack_counter = 0
             self.image = self.scaled_sprites[int(self.attack_counter)]
             WIN.blit(self.image, self.rect)
+        if self.is_running:
+            self.running_counter += 0.6
+            if self.running_counter >= len(self.scaled_running_sprites):
+                self.running_counter = 0
+            
+            self.running_image = self.scaled_running_sprites[int(self.running_counter)]
+            WIN.blit(self.running_image, self.rect)
         else:
             WIN.blit(SAMURAI_IMAGE_SCALED, self.rect)
     
     def attack(self):
+        self.is_running = False
         self.is_attacking = True
         print(self.is_attacking)
         self.attack_counter = 0
+
+    def run(self):
+        if not self.is_attacking:
+            self.is_running = True
+            self.running_counter = 0
 
     
 
@@ -86,7 +111,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.topleft = [pos_x, pos_y]
 
     def update(self, lives):
-        self.current_sprite += 0.6
+        self.current_sprite += 0.5
 
         
         
@@ -158,6 +183,7 @@ def main():
     run = True
     samurai = Samurai(600, 160)
     samurai_char = samurai.rect
+    samurai.run()
     slash = None
     slashes = []
     enemy = None
@@ -202,12 +228,17 @@ def main():
                     print(f"start_Cd : {start_cd}")
                     if current_time - start_cd >= 2000 or start_cd == 0:
                         start_cd = pygame.time.get_ticks()
-
-                        slash = Slash(x=samurai.rect.x - 30, y=samurai.rect.y)
-                        print(type(slash))
                         samurai.attack()
+                        slash = Slash(x=samurai.rect.x - 30, y=samurai.rect.y)
                         slashes.append(slash)
-
+                if event.key == pygame.K_LEFT:
+                    samurai.run()
+                if event.key == pygame.K_RIGHT:
+                    samurai.run()
+                if event.key == pygame.K_DOWN:
+                    samurai.run()
+                if event.key == pygame.K_UP:
+                    samurai.run
 
                 
 
