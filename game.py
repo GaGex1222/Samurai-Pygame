@@ -67,7 +67,7 @@ class Samurai(pygame.sprite.Sprite):
             self.image = self.scaled_sprites[int(self.attack_counter)]
             WIN.blit(self.image, self.rect)
         if self.is_running:
-            self.running_counter += 0.6
+            self.running_counter += 0.5
             if self.running_counter >= len(self.scaled_running_sprites):
                 self.running_counter = 0
             
