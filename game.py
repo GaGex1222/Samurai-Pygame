@@ -20,11 +20,15 @@ class Samurai(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):
         super().__init__()
         self.sprites = []
+        self.scaled_sprites = []
+        self.running_sprites = []
+        self.scaled_running_sprites = []
         self.x = x_pos
         self.y = y_pos
-        self.width = 400
-        self.height = 300
+        self.width = 250
+        self.height = 150
         self.is_attacking = False
+        self.is_running = False
         self.attack_counter = 0
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_000.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_001.png'))
@@ -33,8 +37,13 @@ class Samurai(pygame.sprite.Sprite):
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_005.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_006.png'))
         self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_007.png'))
+        
+        for sprite in self.sprites:
+            scaled_image = pygame.transform.scale(sprite, (self.width, self.height))
+            self.scaled_sprites.append(scaled_image)
+        
 
-        self.image = self.sprites[self.attack_counter]
+        self.image = self.scaled_sprites[self.attack_counter]
         self.anim_rect = self.image.get_rect(width=250, height=150)
         self.rect = pygame.Rect((x_pos, y_pos), (self.width, self.height))
     def draw(self):
@@ -43,8 +52,8 @@ class Samurai(pygame.sprite.Sprite):
             if self.attack_counter >= len(self.sprites):
                 self.is_attacking = False
                 self.attack_counter = 0
-            self.image = self.sprites[int(self.attack_counter)]
-            WIN.blit(self.image, self.anim_rect)
+            self.image = self.scaled_sprites[int(self.attack_counter)]
+            WIN.blit(self.image, self.rect)
         else:
             WIN.blit(SAMURAI_IMAGE_SCALED, self.rect)
     
@@ -52,6 +61,8 @@ class Samurai(pygame.sprite.Sprite):
         self.is_attacking = True
         print(self.is_attacking)
         self.attack_counter = 0
+
+    
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -74,7 +85,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.size = (250, 150)
         self.rect.topleft = [pos_x, pos_y]
 
-    def update(self):
+    def update(self, lives):
         self.current_sprite += 0.6
 
         
@@ -86,6 +97,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.size = (250, 150)
         self.rect.x += 3
         if self.rect.x > 725:
+            lives[0] -= 1 
             self.kill()
 
 
@@ -122,7 +134,7 @@ class Slash:
         surface.blit(self.image , self.rect)
 
 
-def draw_window(samurai, slashes, sprites, enemy, text, textRect):
+def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives):
     WIN.fill(bg_color)
     samurai.draw()
     WIN.blit(text, textRect)
@@ -134,7 +146,7 @@ def draw_window(samurai, slashes, sprites, enemy, text, textRect):
                 slashes.remove(slash)
     if sprites and enemy:
         sprites.draw(WIN)
-        sprites.update()
+        sprites.update(lives=lives)
             
 
     
@@ -153,11 +165,11 @@ def main():
     game_started = False
     start_time = pygame.time.get_ticks()
     moving_sprites = pygame.sprite.Group()
-    lives = 3
+    lives = [3]
     start_cd = 0
     pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 16)
     while run:
-        text = pygame_font.render(f'Lives: {lives}', True, (255, 0, 0))
+        text = pygame_font.render(f'Lives: {lives[0]}', True, (255, 0, 0))
         textRect = text.get_rect()
         textRect.center = (33, 13)
         current_time = pygame.time.get_ticks()
@@ -199,7 +211,7 @@ def main():
 
                 
 
-        draw_window(samurai, slashes, sprites=moving_sprites, enemy=enemy, text=text, textRect=textRect)
+        draw_window(samurai, slashes, sprites=moving_sprites, enemy=enemy, text=text, textRect=textRect, lives=lives)
         keys_pressed = pygame.key.get_pressed()
         samurai_movement(keys=keys_pressed, samurai=samurai_char)
        
