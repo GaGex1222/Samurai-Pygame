@@ -66,7 +66,7 @@ class Samurai(pygame.sprite.Sprite):
                 self.attack_counter = 0
             self.image = self.scaled_sprites[int(self.attack_counter)]
             WIN.blit(self.image, self.rect)
-        if self.is_running:
+        elif self.is_running:
             self.running_counter += 0.5
             if self.running_counter >= len(self.scaled_running_sprites):
                 self.running_counter = 0
@@ -86,6 +86,10 @@ class Samurai(pygame.sprite.Sprite):
         if not self.is_attacking:
             self.is_running = True
             self.running_counter = 0
+        
+    
+    def stop_run(self):
+        self.is_running = False
 
     
 
@@ -159,6 +163,12 @@ class Slash:
         surface.blit(self.image , self.rect)
 
 
+def show_game_over_screen():
+    game_over_text = pygame_font.render("Game Over", True, (255, 0, 0))
+    Game_Over_Rect = game_over_text.get_rect()
+    Game_Over_Rect.center = (WIDTH // 2, HEIGHT // 2)
+    WIN.blit(game_over_text, Game_Over_Rect)
+
 def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives):
     WIN.fill(bg_color)
     samurai.draw()
@@ -174,26 +184,26 @@ def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives):
         sprites.update(lives=lives)
             
 
-    
 
+    
 
     pygame.display.update()
 
 def main():
     run = True
+    pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 16)
     samurai = Samurai(600, 160)
     samurai_char = samurai.rect
-    samurai.run()
     slash = None
     slashes = []
     enemy = None
     moving_sprites = None
-    game_started = False
+    game_over = False
     start_time = pygame.time.get_ticks()
     moving_sprites = pygame.sprite.Group()
     lives = [3]
     start_cd = 0
-    pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 16)
+    
     while run:
         text = pygame_font.render(f'Lives: {lives[0]}', True, (255, 0, 0))
         textRect = text.get_rect()
@@ -221,9 +231,9 @@ def main():
     
 
         for event in pygame.event.get():
-             if event.type == pygame.QUIT:
-                 run = False
-             if event.type == pygame.KEYDOWN:
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     print(f"start_Cd : {start_cd}")
                     if current_time - start_cd >= 2000 or start_cd == 0:
@@ -238,7 +248,24 @@ def main():
                 if event.key == pygame.K_DOWN:
                     samurai.run()
                 if event.key == pygame.K_UP:
-                    samurai.run
+                    samurai.run()
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    samurai.stop_run()
+                if event.key == pygame.K_RIGHT:
+                    samurai.stop_run()
+                if event.key == pygame.K_DOWN:
+                    samurai.stop_run()
+                if event.key == pygame.K_UP:
+                    samurai.stop_run()
+                
+        if lives[0] <= 0:
+            game_over = True
+        
+        if game_over:
+            pygame.time.wait(100000)
+            show_game_over_screen()
+            game_over = False
 
                 
 
