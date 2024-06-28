@@ -15,6 +15,11 @@ SAMURAI_SLASH = pygame.image.load(os.path.join('assets', 'Alternative_2_08.png')
 VEL = 5
 clock = pygame.time.Clock()
 pygame.font.init()
+pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 16)
+
+def draw_game_over(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    WIN.blit(img, (x, y))
 
 class Samurai(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):
@@ -110,8 +115,8 @@ class Enemy(pygame.sprite.Sprite):
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
-        self.rect = self.image.get_rect(width=250, height=150)
-        self.rect.size = (250, 150)
+        self.rect = self.image.get_rect(width=10, height=10)
+        self.rect.size = (10, 10)
         self.rect.topleft = [pos_x, pos_y]
 
     def update(self, lives):
@@ -123,7 +128,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
-        self.rect.size = (250, 150)
+        self.rect.size = (100, 10)
         self.rect.x += 3
         if self.rect.x > 725:
             lives[0] -= 1 
@@ -157,7 +162,7 @@ class Slash:
 
     def draw(self, surface):
         self.rect = self.image.get_rect(width=124, height=150)
-        self.rect.size = (124, 150)
+        self.rect.size = (30, 30)
         self.rect.topleft = [self.x, self.y]
         self.hitbox = self.rect.inflate(-100, -100)
         surface.blit(self.image , self.rect)
@@ -169,10 +174,12 @@ def show_game_over_screen():
     Game_Over_Rect.center = (WIDTH // 2, HEIGHT // 2)
     WIN.blit(game_over_text, Game_Over_Rect)
 
-def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives):
+def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, score_rect):
     WIN.fill(bg_color)
     samurai.draw()
     WIN.blit(text, textRect)
+    WIN.blit(score, score_rect)
+    
     if slashes:
         for slash in slashes:
             slash.draw(WIN)
@@ -202,30 +209,36 @@ def main():
     start_time = pygame.time.get_ticks()
     moving_sprites = pygame.sprite.Group()
     lives = [3]
+    score = [0]
     start_cd = 0
     
     while run:
-        text = pygame_font.render(f'Lives: {lives[0]}', True, (255, 0, 0))
-        textRect = text.get_rect()
-        textRect.center = (33, 13)
-        current_time = pygame.time.get_ticks()
-        random_appearence_time_enemy = random.randint(2000, 7000)
-        if current_time - start_time > random_appearence_time_enemy:
-            print(start_time)
-            start_time = pygame.time.get_ticks()
-            random_y = random.randint(0, 350)
-            enemy = Enemy(-300, random_y)
-            moving_sprites.add(enemy)
-            print(moving_sprites)
-            if enemy.rect.x > 300:
-                moving_sprites.remove(enemy)
-                print(enemy)
-        if len(slashes) > 0: 
-            for sprite in moving_sprites:
-                for slash in slashes:
-                    if sprite.rect.colliderect(slash):
-                        slashes.remove(slash)
-                        moving_sprites.remove(sprite)
+        if game_over == False:
+            score_text = pygame_font.render(f'Score: {score[0]}', True, (255, 0, 0))
+            score_rect = score_text.get_rect()
+            score_rect.center = (900 // 2, 10)
+            text = pygame_font.render(f'Lives: {lives[0]}', True, (255, 0, 0))
+            textRect = text.get_rect()
+            textRect.center = (33, 13)
+            current_time = pygame.time.get_ticks()
+            random_appearence_time_enemy = random.randint(2000, 7000)
+            if current_time - start_time > random_appearence_time_enemy:
+                print(start_time)
+                start_time = pygame.time.get_ticks()
+                random_y = random.randint(0, 350)
+                enemy = Enemy(-300, random_y)
+                moving_sprites.add(enemy)
+                print(moving_sprites)
+                if enemy.rect.x > 300:
+                    moving_sprites.remove(enemy)
+                    print(enemy)
+            if len(slashes) > 0: 
+                for sprite in moving_sprites:
+                    for slash in slashes:
+                        if sprite.rect.colliderect(slash):
+                            score[0] += 1
+                            slashes.remove(slash)
+                            moving_sprites.remove(sprite)
 
         clock.tick(FPS)
     
@@ -261,17 +274,14 @@ def main():
                 
         if lives[0] <= 0:
             game_over = True
+            draw_game_over(text="GAME OVER", text_col=(255, 0, 0), font=pygame_font, x=450, y=300)
         
-        if game_over:
-            pygame.time.wait(100000)
-            show_game_over_screen()
-            game_over = False
 
                 
-
-        draw_window(samurai, slashes, sprites=moving_sprites, enemy=enemy, text=text, textRect=textRect, lives=lives)
-        keys_pressed = pygame.key.get_pressed()
-        samurai_movement(keys=keys_pressed, samurai=samurai_char)
+        if game_over == False:
+            draw_window(samurai, slashes, sprites=moving_sprites, enemy=enemy, text=text, textRect=textRect, lives=lives, score=score_text, score_rect=score_rect)
+            keys_pressed = pygame.key.get_pressed()
+            samurai_movement(keys=keys_pressed, samurai=samurai_char)
        
 
 if __name__ == '__main__':
