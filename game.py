@@ -15,9 +15,10 @@ SAMURAI_SLASH = pygame.image.load(os.path.join('assets', 'Alternative_2_08.png')
 VEL = 5
 clock = pygame.time.Clock()
 pygame.font.init()
-pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 16)
+pygame_font_for_game_over = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 40)
 
-def draw_game_over(text, font, text_col, x, y):
+def draw_game_over(text, font_size, text_col, x, y):
+    font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', font_size)
     img = font.render(text, True, text_col)
     WIN.blit(img, (x, y))
 
@@ -168,17 +169,12 @@ class Slash:
         surface.blit(self.image , self.rect)
 
 
-def show_game_over_screen():
-    game_over_text = pygame_font.render("Game Over", True, (255, 0, 0))
-    Game_Over_Rect = game_over_text.get_rect()
-    Game_Over_Rect.center = (WIDTH // 2, HEIGHT // 2)
-    WIN.blit(game_over_text, Game_Over_Rect)
 
-def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, score_rect):
+def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, score_rect, game_over, score_text):
     WIN.fill(bg_color)
     samurai.draw()
     WIN.blit(text, textRect)
-    WIN.blit(score, score_rect)
+    WIN.blit(score_text, score_rect)
     
     if slashes:
         for slash in slashes:
@@ -189,7 +185,11 @@ def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, 
     if sprites and enemy:
         sprites.draw(WIN)
         sprites.update(lives=lives)
-            
+    
+    if game_over:
+        draw_game_over(text="GAME OVER", text_col=(255, 0, 0), font_size=40, x=330, y=100)
+        draw_game_over(text=f"Score : {score[0]}", text_col=(255, 0, 0), font_size=30, x=386, y=145)
+        draw_game_over(text=f"Press SPACE to play again", text_col=(255, 0, 0), font_size=20, x=330, y=180)
 
 
     
@@ -213,6 +213,14 @@ def main():
     start_cd = 0
     
     while run:
+
+        clock.tick(FPS)
+
+
+        if game_over:
+            moving_sprites.empty()
+            for slash in slashes:
+                slashes.remove(slash)
         if game_over == False:
             score_text = pygame_font.render(f'Score: {score[0]}', True, (255, 0, 0))
             score_rect = score_text.get_rect()
@@ -240,7 +248,16 @@ def main():
                             slashes.remove(slash)
                             moving_sprites.remove(sprite)
 
-        clock.tick(FPS)
+
+        else:
+            key = pygame.key.get_pressed()
+            if key[pygame.K_SPACE]:
+                game_over = False
+                print('space pressed after lose')
+                score[0] = 0
+                lives[0] = 3
+
+
     
 
         for event in pygame.event.get():
@@ -274,12 +291,11 @@ def main():
                 
         if lives[0] <= 0:
             game_over = True
-            draw_game_over(text="GAME OVER", text_col=(255, 0, 0), font=pygame_font, x=450, y=300)
         
 
                 
+        draw_window(samurai, slashes, sprites=moving_sprites, enemy=enemy, text=text, textRect=textRect, lives=lives, score_text=score_text, score=score, score_rect=score_rect, game_over=game_over)
         if game_over == False:
-            draw_window(samurai, slashes, sprites=moving_sprites, enemy=enemy, text=text, textRect=textRect, lives=lives, score=score_text, score_rect=score_rect)
             keys_pressed = pygame.key.get_pressed()
             samurai_movement(keys=keys_pressed, samurai=samurai_char)
        
