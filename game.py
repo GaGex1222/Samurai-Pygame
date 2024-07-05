@@ -31,7 +31,7 @@ class UltimateBar():
         self.h = h
         self.text_x = text_x
         self.text_y = text_y
-        self.ult = 0
+        self.ult = 5
         self.max_ult = max_ult
 
     def draw(self, surface):
@@ -139,12 +139,12 @@ class Enemy(pygame.sprite.Sprite):
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
-        self.rect = self.image.get_rect(width=10, height=10)
-        self.rect.size = (20, 20)
+        self.rect = self.image.get_rect(width=170, height=130)
         self.rect.topleft = [pos_x, pos_y]
 
     def update(self, lives):
         self.current_sprite += 0.5
+        
 
         
         
@@ -152,7 +152,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.current_sprite >= len(self.sprites):
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
-        self.rect.size = (100, 30)
         self.rect.x += 3
         if self.rect.x > 725:
             lives[0] -= 1 
@@ -190,17 +189,17 @@ class Slash:
         self.x -= self.ult_speed
 
     def draw(self, surface):
-        self.rect = self.image.get_rect(width=124, height=150)
-        self.rect.size = (30, 30)
+        self.rect = self.image.get_rect(width=100, height=90)
         self.rect.topleft = [self.x, self.y]
-        self.hitbox = self.rect.inflate(-100, -100)
         surface.blit(self.image , self.rect)
+
 
     def ultimate(self, surface):
         self.rect = self.ult_image.get_rect(topleft=(self.x, self.y))
-        self.hitbox = self.rect.inflate(-1000, -1000)
-        self.rect.size = (1000, 1000)
+        self.hitbox = self.rect.inflate(-400, -400)
+        self.rect.size = (300, 230)
         surface.blit(self.ult_image, self.rect)
+
 
 def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, score_rect, game_over, score_text, ult_bar, ult_slashes):
     WIN.fill(bg_color)
@@ -268,7 +267,7 @@ def main():
             textRect = text.get_rect()
             textRect.center = (33, 13)
             current_time = pygame.time.get_ticks()
-            random_appearence_time_enemy = random.randint(1130, 1600)
+            random_appearence_time_enemy = random.randint(1130, 1200)
             if current_time - start_time > random_appearence_time_enemy:
                 print(start_time)
                 start_time = pygame.time.get_ticks()
@@ -285,7 +284,7 @@ def main():
                         if sprite.rect.colliderect(slash):
                             score[0] += 1
                             if ult_bar.ult < 5:
-                                ult_bar.ult += 1
+                                ult_bar.ult += 0.5
                             print(ult_bar.ult)
                             moving_sprites.remove(sprite)
             if len(ult_slashes) > 0:
@@ -293,16 +292,19 @@ def main():
                     for slash in ult_slashes:
                         if sprite.rect.colliderect(slash):
                             score[0] += 1
-                            ult_bar.ult += 0.5
+                            ult_bar.ult += 0.3
                             print('ult hit')
                             moving_sprites.remove(sprite)
 
         else:
             moving_sprites.empty()
+            
             ult_ready = False
             ult_bar.ult = 0
             for slash in slashes:
                 slashes.remove(slash)
+            for ult_slash in ult_slashes:
+                ult_slashes.remove(ult_slash)
                 key = pygame.key.get_pressed()
                 if key[pygame.K_SPACE]:
                     game_over = False
