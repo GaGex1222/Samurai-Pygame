@@ -15,11 +15,11 @@ SAMURAI_SLASH = pygame.image.load(os.path.join('assets', 'Alternative_2_08.png')
 VEL = 5
 clock = pygame.time.Clock()
 pygame.font.init()
-pygame_font_for_game_over = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 40)
-pygame_font_for_ult = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 20)
+pygame_font_for_game_over = pygame.font.Font(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Minecraft.ttf', 40)
+pygame_font_for_ult = pygame.font.Font(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Minecraft.ttf', 20)
 
 def draw_game_over(text, font_size, text_col, x, y):
-    font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', font_size)
+    font = pygame.font.Font(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Minecraft.ttf', font_size)
     img = font.render(text, True, text_col)
     WIN.blit(img, (x, y))
 
@@ -60,22 +60,22 @@ class Samurai(pygame.sprite.Sprite):
         self.attack_counter = 0
         self.running_counter = 0
         #Attacking Sprites
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_000.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_001.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_003.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_004.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_005.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_006.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_007.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_000.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_001.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_003.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_004.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_005.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_006.png'))
+        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_007.png'))
         #Running sprites
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_000.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_001.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_002.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_003.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_004.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_005.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_006.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_007.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_000.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_001.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_002.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_003.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_004.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_005.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_006.png'), (self.width, self.height)))
+        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_007.png'), (self.width, self.height)))
         print(self.scaled_running_sprites)
 
         
@@ -128,14 +128,14 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         width, height = 250, 150
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_000.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_001.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_002.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_003.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_004.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_005.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_006.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'assets/Samurai1/02-Run/__Samurai1_Run_007.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_000.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_001.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_002.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_003.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_004.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_005.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_006.png'), True, False), (width, height)))
+        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_007.png'), True, False), (width, height)))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -177,6 +177,7 @@ class Slash:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.collision_count = 0
         self.speed = 8  # Speed at which the slash moves
         self.ult_speed = 3
         self.image = pygame.image.load(os.path.join('assets', 'Alternative_2_08.png'))
@@ -236,7 +237,7 @@ def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, 
 
 def main():
     run = True
-    pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\web development projects\PyGame\assets\Minecraft.ttf', 16)
+    pygame_font = pygame.font.Font(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Minecraft.ttf', 16)
     samurai = Samurai(600, 160)
     samurai_char = samurai.rect
     slash = None
@@ -267,7 +268,7 @@ def main():
             textRect = text.get_rect()
             textRect.center = (33, 13)
             current_time = pygame.time.get_ticks()
-            random_appearence_time_enemy = random.randint(1130, 1200)
+            random_appearence_time_enemy = random.randint(300, 600)
             if current_time - start_time > random_appearence_time_enemy:
                 print(start_time)
                 start_time = pygame.time.get_ticks()
@@ -282,6 +283,9 @@ def main():
                 for sprite in moving_sprites:
                     for slash in slashes:
                         if sprite.rect.colliderect(slash):
+                            slash.collision_count += 1
+                            if slash.collision_count == 2:
+                                slashes.remove(slash)
                             score[0] += 1
                             if ult_bar.ult < 5:
                                 ult_bar.ult += 0.5
