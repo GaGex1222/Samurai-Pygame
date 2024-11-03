@@ -7,11 +7,13 @@ import pygame.locals
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 FPS = 60
+BG_IMAGE = pygame.image.load(r'assets\bg\bg.png')
+BATTLEGROUND_IMAGE = pygame.image.load(r'assets\battleground\columns&floor.png')
 pygame.display.set_caption("Samurai Game")
 bg_color = (100, 220, 186)
 SAMURAI_IMAGE = pygame.image.load(os.path.join('assets', 'Samurai1', '01-Idle', '__Samurai1_Idle_000.png'))
 SAMURAI_IMAGE_SCALED = pygame.transform.scale(SAMURAI_IMAGE , (250, 150))
-SAMURAI_SLASH = pygame.image.load(os.path.join('assets', 'Alternative_2_08.png'))
+SAMURAI_SLASH = pygame.image.load(os.path.join('assets', 'ultimateslash.png'))
 VEL = 5
 clock = pygame.time.Clock()
 pygame.font.init()
@@ -31,7 +33,7 @@ class UltimateBar():
         self.h = h
         self.text_x = text_x
         self.text_y = text_y
-        self.ult = 5
+        self.ult = 0
         self.max_ult = max_ult
 
     def draw(self, surface):
@@ -60,22 +62,11 @@ class Samurai(pygame.sprite.Sprite):
         self.attack_counter = 0
         self.running_counter = 0
         #Attacking Sprites
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_000.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_001.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_003.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_004.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_005.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_006.png'))
-        self.sprites.append(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_007.png'))
+        for i in range(8):
+            self.sprites.append(pygame.image.load(rf'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\04-Attack\Attack1\__Samurai1_Attack1_00{i}.png'))
         #Running sprites
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_000.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_001.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_002.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_003.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_004.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_005.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_006.png'), (self.width, self.height)))
-        self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_007.png'), (self.width, self.height)))
+        for i in range(8):
+            self.scaled_running_sprites.append(pygame.transform.scale(pygame.image.load(rf'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_00{i}.png'), (self.width, self.height)))
         print(self.scaled_running_sprites)
 
         
@@ -128,14 +119,8 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         width, height = 250, 150
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_000.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_001.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_002.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_003.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_004.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_005.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_006.png'), True, False), (width, height)))
-        self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(r'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_007.png'), True, False), (width, height)))
+        for i in range(8):
+            self.sprites.append(pygame.transform.scale(pygame.transform.flip(pygame.image.load(rf'C:\Users\gald1\Desktop\stufff\Coding projects\MyPyGame\Samurai-Pygame\assets\Samurai1\02-Run/__Samurai1_Run_00{i}.png'), True, False), (width, height)))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
@@ -180,9 +165,10 @@ class Slash:
         self.collision_count = 0
         self.speed = 8  # Speed at which the slash moves
         self.ult_speed = 3
-        self.image = pygame.image.load(os.path.join('assets', 'Alternative_2_08.png'))
-        scaled_image = pygame.transform.scale(self.image, (300, 300))
-        self.ult_image = scaled_image
+        self.image = pygame.image.load(os.path.join('assets', 'ultimateslash.png'))
+        self.image = pygame.transform.scale(self.image, (100, 100))
+        self.ult_image = pygame.transform.scale(self.image, (250, 250))
+        self.ult_collision_count = 0
     def move(self):
         self.x -= self.speed
 
@@ -190,20 +176,22 @@ class Slash:
         self.x -= self.ult_speed
 
     def draw(self, surface):
-        self.rect = self.image.get_rect(width=100, height=90)
-        self.rect.topleft = [self.x, self.y]
+        self.rect = self.image.get_rect(width=80, height=80)
+        self.rect.center = (self.x, self.y + 50)
         surface.blit(self.image , self.rect)
 
 
     def ultimate(self, surface):
-        self.rect = self.ult_image.get_rect(topleft=(self.x, self.y))
-        self.hitbox = self.rect.inflate(-400, -400)
-        self.rect.size = (300, 230)
+        # Create rect with the size of the ult_image
+        self.rect = self.ult_image.get_rect(center=(self.x, self.y + 50))
+        # Inflate the hitbox if needed
+        self.hitbox = self.rect.inflate(-300, -300)  # Adjust inflate values as needed
         surface.blit(self.ult_image, self.rect)
 
 
 def draw_window(samurai, slashes, sprites, enemy, text, textRect, lives, score, score_rect, game_over, score_text, ult_bar, ult_slashes):
-    WIN.fill(bg_color)
+    WIN.blit(BG_IMAGE, (0, 0))
+    WIN.blit(BATTLEGROUND_IMAGE, (0, 0))
     samurai.draw()
     WIN.blit(text, textRect)
     WIN.blit(score_text, score_rect)
@@ -288,15 +276,18 @@ def main():
                                 slashes.remove(slash)
                             score[0] += 1
                             if ult_bar.ult < 5:
-                                ult_bar.ult += 0.5
+                                ult_bar.ult += 1
                             print(ult_bar.ult)
                             moving_sprites.remove(sprite)
             if len(ult_slashes) > 0:
                 for sprite in moving_sprites:
-                    for slash in ult_slashes:
-                        if sprite.rect.colliderect(slash):
+                    for ult_slash in ult_slashes:
+                        if sprite.rect.colliderect(ult_slash):
                             score[0] += 1
-                            ult_bar.ult += 0.3
+                            ult_bar.ult += 0.2
+                            ult_slash.ult_collision_count += 1
+                            if ult_slash.ult_collision_count == 10:
+                                ult_slashes.remove(ult_slash)
                             print('ult hit')
                             moving_sprites.remove(sprite)
 
